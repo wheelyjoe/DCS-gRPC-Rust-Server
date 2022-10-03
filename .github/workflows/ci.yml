@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  rust:
+    name: Rust
+    runs-on: ubuntu-latest
+
+    env:
+      CARGO_TERM_COLOR: always
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install stable toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - name: Build
+        run: cargo build
+
+      - name: Build with hot-reload feature
+        run: cargo build --features hot-reload
+
+      - name: Test
+        run: cargo test --workspace
+
+      - name: Lint
+        run: cargo clippy -- -D warnings
+
+      - name: Check formatting
+        run: cargo fmt -- --check
+
+  lua:
+    name: Lua
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install luacheck
+        run: |
+          sudo apt-get install -y luarocks
+          sudo luarocks install luacheck
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Lint
+        run: luacheck ./lua
+
+  proto:
+    name: Proto
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install protolint
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          wget -c https://github.com/yoheimuta/protolint/releases/download/v0.35.2/protolint_0.35.2_Linux_x86_64.tar.gz  -O - \
+            | tar -xz -C $HOME/.local/bin protolint
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Lint
+        run: protolint lint protos/.

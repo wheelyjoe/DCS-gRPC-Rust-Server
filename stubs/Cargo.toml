@@ -1,0 +1,25 @@
+[package]
+name = "dcs-grpc-stubs"
+version.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+edition.workspace = true
+
+[dependencies]
+prost = "0.11"
+prost-types = "0.11"
+serde.workspace = true
+tonic.workspace = true
+
+[build-dependencies]
+tonic-build = "0.8"
+protoc-bundled = { git = "https://github.com/rkusa/protoc-bundled.git", rev = "3.21.6" }
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[features]
+default = []
+server = []
+client = []
