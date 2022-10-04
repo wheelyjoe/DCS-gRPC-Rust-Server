@@ -371,7 +371,7 @@ Primarily enhanced with `GRPC.exporters.unit`
   - [x] `getID`
   - [ ] `getNumber`
   - [ ] `getController`
-  - [ ] `getGroup`
+  - [x] `getGroup`
   - [x] `getCallsign`
   - [ ] `getLife`
   - [ ] `getLife0`
@@ -469,7 +469,7 @@ Primarily enhanced with `GRPC.exporters.unit`
 - [ ] `setOnOff`
 - [ ] `knowTarget`
 - [ ] `isTargetDetected`
-- [ ] `getDetectedTargets`
+- [x] `getDetectedTargets`
 - [Main Tasks](https://wiki.hoggitworld.com/view/DCS_task_mission)
   - [ ] `mission`
   - [ ] `AttackGroup`
