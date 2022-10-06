@@ -42,3 +42,15 @@ end
 GRPC.methods.getTheatre = function()
   return GRPC.success({theatre = env.mission.theatre})
 end
+
+GRPC.methods.getDescByName = function(params)
+    local data
+    data = Unit.getDescByName(params.name)
+    attrs = {}
+    for i in pairs(data.attributes) do
+        table.insert(attrs, i)
+    end
+    return GRPC.success({
+        attributes = attrs
+    })
+end

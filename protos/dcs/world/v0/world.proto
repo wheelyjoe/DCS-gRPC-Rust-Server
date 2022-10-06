@@ -14,6 +14,9 @@ service WorldService {
 
   // Returns the theatre (Map name) of the mission
   rpc GetTheatre(GetTheatreRequest) returns (GetTheatreResponse) {}
+
+  // https://wiki.hoggitworld.com/view/DCS_func_getDescByName
+  rpc GetDescByName(GetDescByNameRequest) returns (GetDescByNameResponse) {}
 }
 
 message GetAirbasesRequest {
@@ -36,4 +39,12 @@ message GetTheatreRequest {
 
 message GetTheatreResponse {
   string theatre = 1;
+}
+
+message GetDescByNameRequest{
+	string name = 1;
+}
+
+message GetDescByNameResponse{
+	repeated string attributes = 1;
 }

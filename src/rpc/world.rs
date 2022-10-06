@@ -28,4 +28,12 @@ impl WorldService for MissionRpc {
         let res = self.request("getTheatre", request).await?;
         Ok(Response::new(res))
     }
+
+    async fn get_desc_by_name(
+        &self,
+        request: Request<world::v0::GetDescByNameRequest>,
+    ) -> Result<Response<world::v0::GetDescByNameResponse>, Status> {
+        let res = self.request("getDescByName", request).await?;
+        Ok(Response::new(res))
+    }
 }
