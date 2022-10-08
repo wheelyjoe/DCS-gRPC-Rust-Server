@@ -12,4 +12,11 @@ impl GroupService for MissionRpc {
         let res = self.request("getUnits", request).await?;
         Ok(Response::new(res))
     }
+    async fn is_exist(
+        &self,
+        request: Request<group::v0::IsExistRequest>,
+    ) -> Result<Response<group::v0::IsExistResponse>, Status> {
+        let res = self.request("isExist", request).await?;
+        Ok(Response::new(res))
+    }
 }

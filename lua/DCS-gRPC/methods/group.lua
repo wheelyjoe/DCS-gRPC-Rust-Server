@@ -24,3 +24,13 @@ GRPC.methods.getUnits = function(params)
 
   return GRPC.success({units = result})
 end
+
+GRPC.methods.isExist = function(params)
+-- https://wiki.hoggitworld.com/view/DCS_func_isExist
+    local group = Group.getByName(params.groupName)
+    if group == nil then
+        return GRPC.errorNotFound("group does not exist")
+    end
+    local exist = Group.isExist(group)
+    return GRPC.success(exist)
+end
