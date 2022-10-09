@@ -55,38 +55,40 @@ GRPC.methods.getDetectedTargets = function(params)
   local results = {}
 
   for i, contact in ipairs(targets) do
-    local category = Object.getCategory(contact.object)
+    if contact.object then
+        local category = Object.getCategory(contact.object)
 
-    if category == nil then
-      return GRPC.errorNotFound("Could not find target with id '" .. contact.object:getID() .. "'")
-    end
+        if category == nil then
+          return GRPC.errorNotFound("Could not find target with id '" .. contact.object:getID() .. "'")
+        end
 
-    local result = {
-      distance = contact.distance,
-      id = contact.object.id_,
-      visible = contact.visible,
-      target = {}
-    }
+        local result = {
+          distance = contact.distance,
+          id = contact.object.id_,
+          visible = contact.visible,
+          target = {}
+        }
 
-    --If target is a unit
-    if category == 1 then
-      if params.includeObject == true then
-        result.target.unit = GRPC.exporters.unit( contact.object )
-      else
-        result.target.object = GRPC.exporters.unknown( contact.object )
+        --If target is a unit
+        if category == 1 then
+          if params.includeObject == true then
+            result.target.unit = GRPC.exporters.unit( contact.object )
+          else
+            result.target.object = GRPC.exporters.unknown( contact.object )
+          end
+        end
+        --If target is a weapon
+        if category == 2 then
+          if params.includeObject == true then
+            result.target.weapon = GRPC.exporters.weapon( contact.object )
+          else
+            result.target.object = GRPC.exporters.unknown( contact.object )
+          end
+        end
+
+        results[i] = result
       end
     end
-    --If target is a weapon
-    if category == 2 then
-      if params.includeObject == true then
-        result.target.weapon = GRPC.exporters.weapon( contact.object )
-      else
-        result.target.object = GRPC.exporters.unknown( contact.object )
-      end
-    end
-
-    results[i] = result
-  end
 
   return GRPC.success({
     contacts = results

@@ -30,6 +30,8 @@ service UnitService {
    * orientation and velocity.
    */
   rpc GetTransform(GetTransformRequest) returns (GetTransformResponse) {}
+  // https://wiki.hoggitworld.com/view/DCS_func_isExist
+  rpc IsExist(IsExistRequest) returns (IsExistResponse) {}
 }
 
 message GetRadarRequest {
@@ -127,4 +129,12 @@ message GetRequest {
 
 message GetResponse {
   dcs.common.v0.Unit unit = 1;
+}
+
+message IsExistRequest{
+	string Name = 1;
+}
+
+message IsExistResponse{
+	bool Result = 1;
 }

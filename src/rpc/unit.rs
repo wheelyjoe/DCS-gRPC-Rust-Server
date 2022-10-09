@@ -115,4 +115,11 @@ impl UnitService for MissionRpc {
             time: res.time,
         }))
     }
+    async fn is_exist(
+        &self,
+        request: Request<unit::v0::IsExistRequest>,
+    ) -> Result<Response<unit::v0::IsExistResponse>, Status> {
+        let res = self.request("isExist", request).await?;
+        Ok(Response::new(res))
+    }   
 }

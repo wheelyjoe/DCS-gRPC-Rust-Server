@@ -161,3 +161,14 @@ GRPC.methods.getUnitUpdate = function(params)
     velocity = GRPC.exporters.vector(unit:getVelocity()),
   })
 end
+
+GRPC.methods.isExist = function(params)
+    local unit = Unit.getByName(params.name)
+    local result = {}
+    if unit == nil then 
+        result["result"] = false
+    else
+        result["result"] = Unit.isExist(unit)
+    end
+    return GRPC.success(result)
+end
